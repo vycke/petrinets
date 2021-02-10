@@ -1,5 +1,5 @@
 {
-  "name": "petrinet",
+  "name": "petrinets",
   "version": "0.1.0",
   "description": "js petrinet",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/kevtiq/petrinet.git"
   },
-  "keywords": [],
+  "keywords": ["petri nets", "petrinets", "fsm", "state machine", "finite state machine"],
   "author": "Kevin Pennekamp <github@kevtiq.dev>",
   "license": "MIT",
   "bugs": {
