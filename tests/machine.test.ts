@@ -14,7 +14,7 @@ describe('finite state machine', () => {
   let _machine, state;
 
   beforeEach(() => {
-    _machine = createMachine({ initial: 'off', states });
+    _machine = createMachine('off', states);
     state = _machine.initialState;
   });
 

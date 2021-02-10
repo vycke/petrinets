@@ -14,18 +14,14 @@ type Event = {
   guard?: (data?: Data) => boolean;
 };
 type Node = Record<string, Event>;
-type MachineConfig = {
-  initial: string;
-  states: Record<string, Node>;
-};
 
 // function to create a finite state machine
-export function machine(config: MachineConfig): Machine {
+export function machine(init: string, states: Record<string, Node>): Machine {
   return {
-    initialState: Object.freeze({ value: config.initial }),
+    initialState: Object.freeze({ value: init }),
     transition(state, event, data?): State {
-      const ev = config.states[state.value][event];
-      if (!ev || !config.states[ev.target] || ev.guard?.(data)) return state;
+      const ev = states[state.value][event];
+      if (!ev || !states[ev.target] || ev.guard?.(data)) return state;
       return Object.freeze({ value: ev.target });
     },
   };
