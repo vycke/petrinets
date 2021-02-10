@@ -1,6 +1,22 @@
-import { Machine, MachineConfig, State } from './types';
+type Data = Record<string, unknown>;
+type State = { value: string };
+type Transition = (state: State, event: string, data?: Data) => State;
+type Machine = {
+  initialState: State;
+  transition: Transition;
+};
+type Event = {
+  target: string;
+  guard?: (data?: Data) => boolean;
+};
+type Node = Record<string, Event>;
+type MachineConfig = {
+  initial: string;
+  states: Record<string, Node>;
+};
 
-export default function createMachine(config: MachineConfig): Machine {
+// function to create a finite state machine
+export default function machine(config: MachineConfig): Machine {
   return {
     initialState: Object.freeze({ value: config.initial }),
     transition(state, event, data?): State {
