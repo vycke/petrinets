@@ -1,4 +1,4 @@
-import createMachine from '../src/machine';
+import { interpret, machine as createMachine } from '../src/machine';
 
 const states = {
   on: {
@@ -32,5 +32,12 @@ describe('finite state machine', () => {
     expect(state).toEqual({ value: 'on' });
     state = _machine.transition(state, 'guard', false);
     expect(state).toEqual({ value: 'off' });
+  });
+
+  test('service', () => {
+    const service = interpret(_machine);
+    expect(service.current.value).toBe('off');
+    service.send('turnon');
+    expect(service.current.value).toBe('on');
   });
 });

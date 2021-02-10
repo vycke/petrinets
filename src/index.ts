@@ -1,3 +1,3 @@
-import machine from './machine';
+import { machine, interpret } from './machine';
 
-export { machine };
+export { machine, interpret };
