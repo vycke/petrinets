@@ -13,11 +13,10 @@
     "test:watch": "npm test -- --watchAll --coverage",
     "build": "npm run clean && tsc && tsc -b ./tsconfig.json",
     "prepublish": "npm run build",
-    "bundlesize": "bundlesize --config bundlesize.config.json",
     "prettier": "prettier --ignore-path .gitignore \"**/*.+(js|json|ts|tsx)\"",
     "format": "npm run prettier -- --list-different",
     "lint": "eslint --ignore-path .gitignore .",
-    "validate": "npm-run-all --parallel lint test build && npm run bundlesize"
+    "validate": "npm-run-all --parallel lint test build && bundlesize"
   },
   "repository": {
     "type": "git",
@@ -47,5 +46,29 @@
     "ts-jest": "^26.5.1",
     "typescript": "^4.1.4"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run validate && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.+(js|jsx|ts|tsx)": [ "eslint" ],
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --single-quote --write",
+      "jest --findRelatedTests",
+      "git add"
+    ]
+  },
+  "bundlesize": [{
+    "path": "./dist/**/*.js",
+    "maxSize": "5 kB"
+  }],
+  "jest": {
+    "testMatch": ["**/?(*.)+(spec|test).[jt]s?(x)"],
+    "testPathIgnorePatterns": ["/node_modules/"],
+    "transform": {
+      "^.+\\.(t|j)sx?$": "ts-jest"
+    }
+  }
 }

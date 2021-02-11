@@ -2,15 +2,14 @@
 {
   "include": ["src"],
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "composite": true,
     "target": "es5",
-    "lib": ["es6", "dom"],
-    "declaration": true,
-    "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
     "strictNullChecks": true,
+    "allowJs": true,
     "outDir": "dist",
     "rootDir": "src",
     "removeComments": true
