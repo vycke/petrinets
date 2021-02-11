@@ -21,15 +21,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kevtiq/petrinet.git"
+    "url": "git+https://github.com/kevtiq/petrinets.git"
   },
   "keywords": ["petri nets", "petrinets", "fsm", "state machine", "finite state machine"],
   "author": "Kevin Pennekamp <github@kevtiq.dev>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kevtiq/petrinet/issues"
+    "url": "https://github.com/kevtiq/petrinets/issues"
   },
-  "homepage": "https://github.com/kevtiq/petrinet#readme",
+  "homepage": "https://github.com/kevtiq/petrinets#readme",
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@typescript-eslint/eslint-plugin": "^4.15.0",

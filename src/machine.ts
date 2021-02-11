@@ -1,6 +1,6 @@
-type Data = Record<string, unknown>;
 type State = { value: string };
-type Transition = (state: State, event: string, data?: Data) => State;
+type Event = { target: string };
+type Transition = (state: State, event: string) => State;
 type Machine = {
   initialState: State;
   transition: Transition;
@@ -9,19 +9,15 @@ type Service = {
   send(name: string): Service;
   current: State;
 };
-type Event = {
-  target: string;
-  guard?: (data?: Data) => boolean;
-};
 type Node = Record<string, Event>;
 
 // function to create a finite state machine
 export function machine(init: string, states: Record<string, Node>): Machine {
   return {
     initialState: Object.freeze({ value: init }),
-    transition(state, event, data?): State {
+    transition(state, event): State {
       const ev = states[state.value][event];
-      if (!ev || !states[ev.target] || ev.guard?.(data)) return state;
+      if (!ev || !states[ev.target]) return state;
       return Object.freeze({ value: ev.target });
     },
   };

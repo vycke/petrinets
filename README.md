@@ -1,5 +1,11 @@
 # JavaScript petri-nets
 
+![](https://github.com/kevtiq/petrinets/workflows/test/badge.svg)
+[![Node version](https://img.shields.io/npm/v/pubbel.svg?style=flat)](https://www.npmjs.com/package/petrinets)
+[![NPM Downloads](https://img.shields.io/npm/dm/pubbel.svg?style=flat)](https://www.npmjs.com/package/petrinets)
+[![Minified size](https://img.shields.io/bundlephobia/min/pubbel?label=minified)](https://www.npmjs.com/package/petrinets)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Lightweight library for petri-nets and finite state machines.
 
 ## Finite state machines
@@ -11,7 +17,6 @@ import { machine, interpret } from 'petrinet';
 const states = {
   on: {
     turnoff: { target: 'off' },
-    guard: { target: 'off', guard: (d) => d },
   },
   off: {
     turnon: { target: 'on' },
