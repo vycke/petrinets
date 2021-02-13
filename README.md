@@ -31,3 +31,39 @@ const service = interpret(myMachine);
 service.send('turnoff').send('turnon');
 console.log(service.current); // { value: 'on' }
 ```
+
+## Petri Net
+
+```js
+import { petrinet } from 'petrinets';
+
+const places = [{ key: 'p1' }, { key: 'p2' }, { key: 'p3' }, { key: 'p4' }];
+const transitions = [
+  {
+    key: 't1',
+    input: [{ source: 'p1' }],
+    output: [{ target: 'p2' }, { target: 'p4' }],
+  },
+  {
+    key: 't2',
+    input: [{ source: 'p2' }, { source: 'p4' }],
+    output: [{ target: 'p3' }],
+  },
+  {
+    key: 't3',
+    input: [{ source: 'p3' }, { source: 'p4' }],
+    output: [{ target: 'p1' }, { target: 'p4' }],
+  },
+  {
+    key: 't4',
+    input: [{ source: 'p4' }],
+    output: [{ target: 'p4' }],
+  },
+];
+
+const myNet = petrinet(places, transitions);
+myNet.add({ place: 'p1', amount: 1 });
+myNet.fire('t1');
+
+console.log(myNet.marking); // [{ place: 'p2', amount: 1 }. { place: 'p4', amount: 1 }]
+```

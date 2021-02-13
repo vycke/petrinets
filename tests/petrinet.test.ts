@@ -29,31 +29,39 @@ describe('finite state machine', () => {
   let net;
 
   beforeEach(() => {
-    net = petrinet({ places, transitions, initialMarking });
+    net = petrinet(places, transitions);
+    net.add({ place: 'p1', amount: 1 });
   });
 
   test('simple petrinet', () => {
-    expect(net.current).toEqual(initialMarking);
+    expect(net.marking).toEqual(initialMarking);
     net.fire('t4');
     net.fire('t10');
-    expect(net.current).toEqual(initialMarking);
+    expect(net.marking).toEqual(initialMarking);
     net.fire('t1');
-    expect(net.current).toEqual([
+    expect(net.marking).toEqual([
       { place: 'p2', amount: 1 },
       { place: 'p4', amount: 1 },
     ]);
 
-    net.fire('t4').fire('t2');
-    expect(net.current).toEqual([{ place: 'p3', amount: 1 }]);
-    net.addToken({ place: 'p1', amount: 2 });
-    expect(net.current).toEqual([
-      { place: 'p3', amount: 1 },
+    net.fire('t4');
+    net.fire('t2');
+    expect(net.marking).toEqual([{ place: 'p3', amount: 1 }]);
+    net.add({ place: 'p1', amount: 2 });
+    expect(net.marking).toEqual([
       { place: 'p1', amount: 2 },
-    ]);
-    net.addToken({ place: 'p1', amount: 2 });
-    expect(net.current).toEqual([
       { place: 'p3', amount: 1 },
+    ]);
+    net.add({ place: 'p1', amount: 2 });
+    expect(net.marking).toEqual([
       { place: 'p1', amount: 4 },
+      { place: 'p3', amount: 1 },
+    ]);
+
+    net.add({ place: 'p10', amount: 1 });
+    expect(net.marking).toEqual([
+      { place: 'p1', amount: 4 },
+      { place: 'p3', amount: 1 },
     ]);
   });
 });
