@@ -1,4 +1,4 @@
-import { interpret, machine as createMachine } from '../src/machine';
+import fsm from '../src/fsm';
 
 const states = {
   on: {
@@ -10,25 +10,12 @@ const states = {
 };
 
 describe('finite state machine', () => {
-  let _machine, state;
-
-  beforeEach(() => {
-    _machine = createMachine('off', states);
-    state = _machine.initialState;
-  });
-
-  test('simple state machine', () => {
-    expect(state).toEqual({ value: 'off' });
-    state = _machine.transition(state, 'turnon');
-    expect(state).toEqual({ value: 'on' });
-    state = _machine.transition(state, 'turnon');
-    expect(state).toEqual({ value: 'on' });
-  });
-
   test('service', () => {
-    const service = interpret(_machine);
-    expect(service.current.value).toBe('off');
+    const service = fsm('off', states);
+    expect(service.state.value).toBe('off');
     service.send('turnon');
-    expect(service.current.value).toBe('on');
+    expect(service.state.value).toBe('on');
+    service.send('non-existing-event');
+    expect(service.state.value).toBe('on');
   });
 });

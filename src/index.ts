@@ -1,3 +1,4 @@
-import { machine, interpret } from './machine';
+import fsm from './fsm';
+import petrinet from './petrinet';
 
-export { machine, interpret };
+export { fsm, petrinet };

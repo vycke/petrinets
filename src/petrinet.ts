@@ -15,7 +15,10 @@ type PetriNet = {
   add(token: Token): void;
 };
 
-export function petrinet(places: Place[], transitions: Transition[]): PetriNet {
+export default function petrinet(
+  places: Place[],
+  transitions: Transition[]
+): PetriNet {
   const _tokens: Token[] = places.map((p) => ({ place: p.key, amount: 0 }));
 
   // Function that adds tokens to a given marking
