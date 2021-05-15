@@ -1,15 +1,15 @@
 # JavaScript petri-nets
 
 ![](https://github.com/kevtiq/petrinets/workflows/test/badge.svg)
-[![Node version](https://img.shields.io/npm/v/petrinets.svg?style=flat)](https://www.npmjs.com/package/@crinkle/petrinets)
-[![NPM Downloads](https://img.shields.io/npm/dm/petrinets.svg?style=flat)](https://www.npmjs.com/package/@crinkle/petrinets)
-[![Minified size](https://img.shields.io/bundlephobia/min/petrinets?label=minified)](https://www.npmjs.com/package/@crinkle/petrinets)
+[![Node version](https://img.shields.io/npm/v/@crinkle/petrinets.svg?style=flat)](https://www.npmjs.com/package/@crinkle/petrinets)
+[![NPM Downloads](https://img.shields.io/npm/dm/@crinkle/petrinets.svg?style=flat)](https://www.npmjs.com/package/@crinkle/petrinets)
+[![Minified size](https://img.shields.io/bundlephobia/min/@crinkle/petrinets?label=minified)](https://www.npmjs.com/package/@crinkle/petrinets)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Lightweight library for petri-nets.
 
 ```js
-import { petrinet } from 'petrinets';
+import { petrinet } from '@crinkle/petrinets';
 
 const places = [{ key: 'p1' }, { key: 'p2' }, { key: 'p3' }, { key: 'p4' }];
 const transitions = [
