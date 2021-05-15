@@ -1,4 +1,4 @@
-import petrinet from '../src/petrinet';
+import petrinet from '../src';
 
 const places = [{ key: 'p1' }, { key: 'p2' }, { key: 'p3' }, { key: 'p4' }];
 const transitions = [
