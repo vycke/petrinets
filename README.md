@@ -33,20 +33,25 @@ const states = {
   },
 };
 
+// Simple invoking
 const myMachine = fsm('green', states);
 myMachine.send('CHANGE');
 myMachine.send('CHANGE');
 console.log(myMachine.state); // { value: 'red' }
 
+// direct sideeffects on state change
 const myMachine = fsm('green', states);
 myMachine.send('BREAK');
 console.log(myMachine.state); // { value: 'red' }
 
-const myMachine = fsm('green', states);
+// delayed effects and machine callbacks
+let calls = 0;
+const cb = () => calls++;
+const myMachine = fsm('green', states, cb);
 myMachine.send('CHANGE');
-console.log(myMachine.state); // { value: yellow }
+console.log(myMachine.state, calls); // { value: yellow }, 1
 // wait for the delay
-console.log(myMachine.state); // { value: 'red' }
+console.log(myMachine.state, calls); // { value: 'red' }, 2
 ```
 
 ## Petri Net

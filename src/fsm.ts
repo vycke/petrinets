@@ -5,10 +5,12 @@ type Node = {
 };
 
 type Config = Record<string, Node>;
-type Machine = { send: Send; state: { value: string } };
+type State = { value: string };
+type CB = (state: State) => void;
+type Machine = { send: Send; state: State };
 
 // wrap a machine in a service
-export default function fsm(init: string, states: Config): Machine {
+export default function fsm(init: string, states: Config, cb?: CB): Machine {
   let _state = Object.freeze({ value: init });
 
   function send(name: string): void {
@@ -16,6 +18,7 @@ export default function fsm(init: string, states: Config): Machine {
     if (!event || !states[event]) return;
 
     _state = Object.freeze({ value: event });
+    cb?.(_state);
     states[event].effect?.(send), 0;
   }
 

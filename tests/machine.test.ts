@@ -47,4 +47,14 @@ describe('finite state machine', () => {
     await delay(200);
     expect(service.state.value).toBe('red');
   });
+
+  test('callback', async () => {
+    const cb = jest.fn((x) => x);
+    const service = fsm('green', states, cb);
+    expect(cb.mock.calls.length).toBe(0);
+    service.send('CHANGE');
+    expect(cb.mock.calls.length).toBe(1);
+    await delay(200);
+    expect(cb.mock.calls.length).toBe(2);
+  });
 });
