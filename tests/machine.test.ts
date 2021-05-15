@@ -7,17 +7,17 @@ function delay(ms = 0) {
 }
 
 const states = {
-  green: { on: { CHANGE: 'yellow', BREAK: 'broken' } },
+  green: { CHANGE: 'yellow', BREAK: 'broken' },
   yellow: {
-    on: { CHANGE: 'red' },
+    CHANGE: 'red',
     async effect(send) {
       await delay(100); // delay for 3000ms
       send('CHANGE');
     },
   },
-  red: { on: { CHANGE: 'green' } },
+  red: { CHANGE: 'green' },
   broken: {
-    on: { STOP: 'red' },
+    STOP: 'red',
     effect(send) {
       send('STOP');
     },

@@ -1,9 +1,6 @@
 type Send = (name: string) => void;
-type Node = {
-  on?: Record<string, string>;
-  effect?(send: Send): void;
-};
-
+type Effect = (send: Send) => void;
+type Node = Record<string, string> | { effect: Effect };
 type Config = Record<string, Node>;
 type State = { value: string };
 type CB = (state: State) => void;
@@ -14,12 +11,12 @@ export default function fsm(init: string, states: Config, cb?: CB): Machine {
   let _state = Object.freeze({ value: init });
 
   function send(name: string): void {
-    const event = states[_state.value].on?.[name];
+    const event = states[_state.value][name];
     if (!event || !states[event]) return;
 
     _state = Object.freeze({ value: event });
     cb?.(_state);
-    states[event].effect?.(send), 0;
+    (states[event].effect as Effect)?.(send), 0;
   }
 
   return {
