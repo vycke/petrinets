@@ -1,19 +1,22 @@
-type State = { value: string };
-type Arc = { target: string };
-type FSM = {
-  send(name: string): void;
-  state: State;
+type Send = (name: string) => void;
+type Node = {
+  on?: Record<string, string>;
+  effect?(send: Send): void;
 };
-type Node = Record<string, Arc>;
+
+type Config = Record<string, Node>;
+type Machine = { send: Send; state: { value: string } };
 
 // wrap a machine in a service
-export default function fsm(init: string, states: Record<string, Node>): FSM {
+export default function fsm(init: string, states: Config): Machine {
   let _state = Object.freeze({ value: init });
 
   function send(name: string): void {
-    const event = states[_state.value][name];
-    if (!event || !states[event.target]) return;
-    _state = Object.freeze({ value: event.target });
+    const event = states[_state.value].on?.[name];
+    if (!event || !states[event]) return;
+
+    _state = Object.freeze({ value: event });
+    states[event].effect?.(send), 0;
   }
 
   return {

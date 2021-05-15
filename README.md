@@ -14,19 +14,39 @@ Simple finite state machines that can be used for state/process management. It h
 
 ```js
 import { fsm } from 'petrinet';
+
 const states = {
-  on: {
-    turnoff: { target: 'off' },
+  green: { on: { CHANGE: 'yellow', BREAK: 'broken' } },
+  yellow: {
+    on: { CHANGE: 'red' },
+    async effect(send) {
+      await delay(100); // delay for 3000ms
+      send('CHANGE');
+    },
   },
-  off: {
-    turnon: { target: 'on' },
+  red: { on: { CHANGE: 'green' } },
+  broken: {
+    on: { STOP: 'red' },
+    effect(send) {
+      send('STOP');
+    },
   },
 };
 
-const myMachine = fsm('off', states);
-myMachine.send('turnoff');
-myMachine.send('turnon');
-console.log(myMachine.state); // { value: 'on' }
+const myMachine = fsm('green', states);
+myMachine.send('CHANGE');
+myMachine.send('CHANGE');
+console.log(myMachine.state); // { value: 'red' }
+
+const myMachine = fsm('green', states);
+myMachine.send('BREAK');
+console.log(myMachine.state); // { value: 'red' }
+
+const myMachine = fsm('green', states);
+myMachine.send('CHANGE');
+console.log(myMachine.state); // { value: yellow }
+// wait for the delay
+console.log(myMachine.state); // { value: 'red' }
 ```
 
 ## Petri Net

@@ -1,21 +1,50 @@
 import fsm from '../src/fsm';
 
+function delay(ms = 0) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 const states = {
-  on: {
-    turnoff: { target: 'off' },
+  green: { on: { CHANGE: 'yellow', BREAK: 'broken' } },
+  yellow: {
+    on: { CHANGE: 'red' },
+    async effect(send) {
+      await delay(100); // delay for 3000ms
+      send('CHANGE');
+    },
   },
-  off: {
-    turnon: { target: 'on' },
+  red: { on: { CHANGE: 'green' } },
+  broken: {
+    on: { STOP: 'red' },
+    effect(send) {
+      send('STOP');
+    },
   },
 };
 
 describe('finite state machine', () => {
   test('service', () => {
-    const service = fsm('off', states);
-    expect(service.state.value).toBe('off');
-    service.send('turnon');
-    expect(service.state.value).toBe('on');
-    service.send('non-existing-event');
-    expect(service.state.value).toBe('on');
+    const service = fsm('green', states);
+    expect(service.state.value).toBe('green');
+    service.send('CHANGE');
+    expect(service.state.value).toBe('yellow');
+    service.send('CHANGE');
+    expect(service.state.value).toBe('red');
+  });
+
+  test('side effects', () => {
+    const service = fsm('green', states);
+    service.send('BREAK');
+    expect(service.state.value).toBe('red');
+  });
+
+  test('async side effects', async () => {
+    const service = fsm('green', states);
+    service.send('CHANGE');
+    expect(service.state.value).toBe('yellow');
+    await delay(200);
+    expect(service.state.value).toBe('red');
   });
 });
